@@ -2,6 +2,8 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 import {
   Briefcase,
   GraduationCap,
@@ -16,8 +18,8 @@ import {
   Layers,
 } from "lucide-react";
 
-function cn(...classes: (string | undefined | false)[]) {
-  return classes.filter(Boolean).join(" ");
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 
 function AnimatedSection({
@@ -34,9 +36,9 @@ function AnimatedSection({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.7, ease: "easeOut", delay }}
+      initial={{ y: 24 }}
+      animate={{ y: isInView ? 0 : 24 }}
+      transition={{ duration: 0.65, ease: "easeOut", delay }}
       className={className}
     >
       {children}
@@ -133,12 +135,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#d4a017]/3 blur-[100px]" />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-          className="relative z-10 flex flex-col items-center gap-5"
-        >
+        <div className="hero-animate relative z-10 flex flex-col items-center gap-5">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d4a017]/40 bg-[#d4a017]/10 text-[#d4a017] text-sm font-medium tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d4a017] animate-pulse" />
             Open to senior opportunities
@@ -173,21 +170,11 @@ export default function Home() {
               View experience
             </a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[#8b949e]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-          >
-            <ChevronDown size={24} />
-          </motion.div>
-        </motion.div>
+        <div className="hero-chevron absolute bottom-10 left-1/2 -translate-x-1/2 text-[#8b949e]">
+          <ChevronDown size={24} />
+        </div>
       </section>
 
       {/* Content */}
@@ -275,8 +262,8 @@ export default function Home() {
               {skills.map((skill, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  initial={{ scale: 0.97 }}
+                  whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                   whileHover={{ scale: 1.03 }}
